@@ -1,4 +1,4 @@
-use crate::{vector::Vector, WINDOW_WITH, WINDOW_HEIGHT};
+use crate::{vector::Vector, WINDOW_HEIGHT, WINDOW_WITH};
 
 pub struct Particle {
     pub position: Vector,
@@ -28,6 +28,15 @@ impl Particle {
             self.position.y = self.radius;
             self.velocity.y = self.velocity.y * -1.0;
         }
+    }
+
+    pub fn mass(&self) -> f64 {
+        2.0 * 3.14 * self.radius.powi(2)
+    }
+
+    pub fn apply_force(&mut self, force: &Vector) {
+        let f = force.mult(1.0 / self.mass());
+        self.acceleration.add(&f);
     }
 
     pub fn update(&mut self, dt: f64) {

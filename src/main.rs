@@ -92,8 +92,8 @@ impl App {
                         let difference_normal = difference.normalize();
                         let distance = difference.mag();
 
-                        let m1 = 2.0 * 3.14 * p1.radius.powi(2);
-                        let m2 = 2.0 * 3.14 * p2.radius.powi(2);
+                        let m1 = p1.mass();
+                        let m2 = p2.mass();
 
                         let force_mag = m1 * m2 / distance.powi(2);
 
@@ -101,10 +101,10 @@ impl App {
                         let f2 = f1.mult(-1.0);
 
                         let p1 = &mut particles[i0];
-                        p1.acceleration.add(&f2.mult(1.0 / m1));
+                        p1.apply_force(&f2);
 
                         let p2 = &mut particles[i1];
-                        p2.acceleration.add(&f1.mult(1.0 / m2));
+                        p2.apply_force(&f1);
                     }
                 }
             }
@@ -118,8 +118,8 @@ impl App {
                     let p1 = &particles[i0];
                     let p2 = &particles[i1];
 
-                    let m1 = 2.0 * 3.14 * p1.radius.powi(2);
-                    let m2 = 2.0 * 3.14 * p2.radius.powi(2);
+                    let m1 = p1.mass();
+                    let m2 = p2.mass();
 
                     let p1v = particles[i0].velocity.clone();
                     let p2v = particles[i1].velocity.clone();
